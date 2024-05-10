@@ -28,7 +28,7 @@ class Admin(User):
             self._users_list.append(user)
             print(f"Пользователь {user.get_name()} успешно добавлен.")
         else:
-            print("Нет пользователя с таким именем.")
+            print("ВВедены некорректные данные")
 
     def remove_user(self, user_id):
         for user in self._users_list:
