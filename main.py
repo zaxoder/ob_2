@@ -1,46 +1,62 @@
 class User:
-    def __init__(self, id, name, access_level):
-        self.id = id
-        self.name = name
-        self.access_level = access_level
+    def __init__(self, user_id, name):
+        self._user_id = user_id
+        self._name = name
+        self._access_level = 'Пользователь'
 
-    def get_id(self):
-        return self.id
-
-    def set_id(self, new_id):
-        self.id = new_id
+    def get_user_id(self):
+        return self._user_id
 
     def get_name(self):
-        return self.name
-
-    def set_name(self, new_name):
-        self.name = new_name
+        return self._name
 
     def get_access_level(self):
-        return self.access_level
+        return self._access_level
+
+    def __str__(self):
+        return f"ID: {self._user_id}, Имя: {self._name}, Права доступа: {self._access_level}"
+
 
 class Admin(User):
-    def __init__(self, id, name, access_level, admin_access):
-        super().__init__(id, name, access_level)
-        self.admin_access = admin_access
+    def __init__(self, user_id, name):
+        super().__init__(user_id, name)
+        self._access_level = 'Администратор'
+        self._users_list = []
 
     def add_user(self, user):
-        # Добавить пользователя в список пользователей
-        pass
+        if isinstance(user, User):
+            self._users_list.append(user)
+            print(f"Пользователь {user.get_name()} успешно добавлен.")
+        else:
+            print("Нет пользователя с таким именем.")
 
-    def remove_user(self, user):
+    def remove_user(self, user_id):
+        for user in self._users_list:
+            if user.get_user_id() == user_id:
+                self._users_list.remove(user)
+                print(f"Пользователь ID {user_id} успешно удален.")
+                return
+        print(f"Пользователь ID {user_id} не найден.")
 
-        pass
+    def list_users(self):
+        for user in self._users_list:
+            print(user)
 
-    def has_admin_access(self):
-        return self.admin_access
 
-admin = Admin(1, "Ivan", "Администратор", True)
-user = User(2, "Анатолий", "Пользователь")
+if __name__ == "__main__":
 
-# Пример использования методов класса Admin
-print(admin.has_admin_access())
-admin.add_user(user)
-print(len(admin.get_user()))
-admin.remove_user(user)
-print(len(admin.get_user()))
+    admin = Admin(1, "Виктор")
+    print(admin)
+
+
+    user1 = User(2, "Борис")
+    user2 = User(3, "Иван")
+    user3 = User(4, "Петр")
+
+    admin.add_user(user1)
+    admin.add_user(user2)
+    admin.add_user(user3)
+
+    admin.list_users()
+    admin.remove_user(2)
+    admin.list_users()
